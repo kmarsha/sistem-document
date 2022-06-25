@@ -28,15 +28,3 @@
 </div>
 
 @endsection
-
-@push('js')
-<script>
-  $('#coba').click(function() {
-       toastr.options = 
-        {
-            "closeButton" : true,
-        }
-            toastr.success("hallow");
-  });
-</script>
-@endpush

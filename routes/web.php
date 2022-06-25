@@ -23,24 +23,26 @@ Route::get('/', function () {
 
 Auth::routes(['register' => false]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware('auth')->group(function() {   
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-// Route::resource('documents', DocumentController::class);
+    // Route::resource('documents', DocumentController::class);
 
-Route::get('documents', [DocumentController::class, 'index'])->name('documents.list');
+    Route::get('documents', [DocumentController::class, 'index'])->name('documents.list');
 
-// Route::resource('document', DocumentController::class)->except('index');
+    // Route::resource('document', DocumentController::class)->except('index');
 
-Route::get('document/create', [DocumentController::class, 'create'])->name('document.create');
-Route::post('document', [DocumentController::class, 'store'])->name('document.store');
-Route::get('document/{document}/edit', [DocumentController::class, 'edit'])->name('document.edit');
-Route::put('document/{document}', [DocumentController::class, 'update'])->name('document.update');
-Route::delete('document/{document}', [DocumentController::class, 'destroy'])->name('document.destroy');
+    Route::get('document/create', [DocumentController::class, 'create'])->name('document.create');
+    Route::post('document', [DocumentController::class, 'store'])->name('document.store');
+    Route::get('document/{document}/edit', [DocumentController::class, 'edit'])->name('document.edit');
+    Route::put('document/{document}', [DocumentController::class, 'update'])->name('document.update');
+    Route::delete('document/{document}', [DocumentController::class, 'destroy'])->name('document.destroy');
 
-Route::middleware('isApprover')->group(function() {
-    Route::get('documents/remarked', [RemarkController::class, 'remarkList'])->name('documents.remark-list');
+    Route::middleware('isApprover')->group(function() {
+        Route::get('documents/remarked', [RemarkController::class, 'remarkList'])->name('documents.remark-list');
 
-    Route::put('document/{document}/remark', [RemarkController::class, 'remark'])->name('document.remarking');
-    // Route::put('document/{document}/approve', [RemarkController::class, 'reject'])->name('document.reject');
+        Route::put('document/{document}/remark', [RemarkController::class, 'remark'])->name('document.remarking');
+        // Route::put('document/{document}/approve', [RemarkController::class, 'reject'])->name('document.reject');
+    });
 });
 
